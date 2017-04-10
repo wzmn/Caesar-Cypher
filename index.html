@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ceasar Cypher</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<style type="text/css">
+		textarea {
+		    width: 100%;
+		    height: 50vh;
+		    border: 1px solid #efefef;
+		}
+		input[type="number"]{
+			width: 50px;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-10 display">
+			<textarea></textarea>
+		</div>
+		<div class="col-sm-2">
+			<input id="shift" type="number" placeholder="shift">
+			<button class="btn btn-default">Convert</button>
+		</div>			
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$("button").click(function(){
+		ceasar.cipher($("textarea").val(), $("#shift").val());
+	});
+	let ceasar = {
+		lowercase : "abcdefghijklmnopqrstuvwxyz",
+		uppercase : "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+		lShift : function(letter, shift){
+			if (shift && shift / Math.abs(shift) == -1) {
+				pointer = ceasar.lowercase.indexOf(letter);
+					for (var i = Math.abs(shift) - 1; i >= 0; i--) {
+						if (pointer <= 0) {
+							pointer = 26;
+						}
+						pointer--;
+					}
+				return ceasar.lowercase[pointer];
+			}else{
+				pointer = ceasar.lowercase.indexOf(letter);
+					for (i = 0; i <= shift -1; i++) {
+						pointer++;
+						if (pointer == 26) {
+							pointer = 0;
+						}
+					}
+				return ceasar.lowercase[pointer];
+			}
+		},
+		UShift : function(letter, shift){
+			if (shift && shift / Math.abs(shift) == -1) {
+				pointer = ceasar.uppercase.indexOf(letter);
+					for (var i = Math.abs(shift) - 1; i >= 0; i--) {
+						if (pointer <= 0) {
+							pointer = 26;
+						}
+						pointer--;
+					}
+				return ceasar.uppercase[pointer];
+			}else{
+				pointer = ceasar.uppercase.indexOf(letter);
+					for (i = 0; i <= shift -1; i++) {
+						pointer++;
+						if (pointer == 26) {
+							pointer = 0;
+						}
+					}
+				return ceasar.uppercase[pointer];
+			}
+		},
+		cipher : function(text, shift){
+			output = ""; 
+			for (var i = 0; i <= text.length - 1; i++) {
+				if (/\s/.test(text[i])) {
+				    output = output + " ";
+				    continue
+				}
+				if (text[i] == text[i].toLowerCase())
+					{
+					  output = output + ceasar.lShift(text[i], shift);
+					}
+					else
+					{
+					  output = output + ceasar.UShift(text[i], shift);
+					}
+			}
+			$("textarea").val(output);
+		}
+	}
+
+
+/*
+	Minified
+	
+var ceasar={lowercase:"abcdefghijklmnopqrstuvwxyz",uppercase:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",lShift:function(e,r){if(r&&r/Math.abs(r)==-1){pointer=ceasar.lowercase.indexOf(e);for(var t=Math.abs(r)-1;t>=0;t--)pointer<=0&&(pointer=26),pointer--;return ceasar.lowercase[pointer]}for(pointer=ceasar.lowercase.indexOf(e),t=0;r-1>=t;t++)pointer++,26==pointer&&(pointer=0);return ceasar.lowercase[pointer]},UShift:function(e,r){if(r&&r/Math.abs(r)==-1){pointer=ceasar.uppercase.indexOf(e);for(var t=Math.abs(r)-1;t>=0;t--)pointer<=0&&(pointer=26),pointer--;return ceasar.uppercase[pointer]}for(pointer=ceasar.uppercase.indexOf(e),t=0;r-1>=t;t++)pointer++,26==pointer&&(pointer=0);return ceasar.uppercase[pointer]},cipher:function(e,r){output="";for(var t=0;t<=e.length-1;t++)/\s/.test(e[t])?output+=" ":e[t]==e[t].toLowerCase()?output+=ceasar.lShift(e[t],r):output+=ceasar.UShift(e[t],r);$("textarea").val(output)}};
+
+
+*/
+</script>
+</body>
+</html>
+
